@@ -1,0 +1,289 @@
+边缘检测
+I = imread('test2.png');
+figure('Name','边缘检测');
+subplot(2,3,1);
+imshow(I);
+title('原图');
+B=edge(I,'Sobel');
+subplot(2,3,3);
+imshow(B);
+title('Sobel边缘检测')
+E=edge(I,'Canny');
+subplot(2,3,6);
+imshow(E);
+title('Canny边缘检测')
+C=edge(I,'Prewitt');
+subplot(2,3,4);
+imshow(C);
+title('Prewitt边缘检测');
+A=edge(I,'Roberts');
+subplot(2,3,2);
+imshow(A);
+title('Robert边缘检测');
+D=edge(I,'LOG');
+subplot(2,3,5);
+imshow(D);
+title('LOG边缘检测')
+
+直线检测
+[H1,T1,R1] = hough(A);
+%subplot(1,2,1);
+%imshow(H1,[],'XData',T1,'YData',R1,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P1  = houghpeaks(H1,20);
+x1 = T1(P1(:,2)); 
+y1 = R1(P1(:,1));
+plot(x1,y1,'s','color','white');
+lines=houghlines(A,T1,R1,P1);
+subplot(2,3,1);
+imshow(I), hold on;
+title('Robert边缘检测后直线检测');
+for k = 1:length(lines)
+xy1 = [lines(k).point1; lines(k).point2];
+ plot(xy1(:,1),xy1(:,2),'LineWidth',2,'Color','green');
+plot(xy1(1,1),xy1(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy1(2,1),xy1(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H2,T2,R2] = hough(B);
+%subplot(1,2,1);
+%imshow(H2,[],'XData',T2,'YData',R2,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P2  = houghpeaks(H2,120);
+x2 = T2(P2(:,2)); 
+y2 = R2(P2(:,1));
+plot(x2,y2,'s','color','white');
+lines=houghlines(B,T2,R2,P2);
+subplot(2,3,2);
+imshow(I), hold on;
+title('Sobel边缘检测后直线检测');
+for k = 1:length(lines)
+xy2 = [lines(k).point1; lines(k).point2];
+ plot(xy2(:,1),xy2(:,2),'LineWidth',2,'Color','green');
+plot(xy2(1,1),xy2(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy2(2,1),xy2(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H3,T3,R3] = hough(C);
+%subplot(1,2,1);
+%imshow(H3,[],'XData',T3,'YData',R3,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P3  = houghpeaks(H3,20);
+x3 = T3(P3(:,2)); 
+y3 = R3(P3(:,1));
+plot(x3,y3,'s','color','white');
+lines=houghlines(C,T3,R3,P3);
+subplot(2,3,3);
+imshow(I), hold on;
+title('Prewitt边缘检测后直线检测');
+for k = 1:length(lines)
+xy3 = [lines(k).point1; lines(k).point2];
+ plot(xy3(:,1),xy3(:,2),'LineWidth',2,'Color','green');
+plot(xy3(1,1),xy3(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy3(2,1),xy3(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H4,T4,R4] = hough(D);
+%subplot(1,2,1);
+%imshow(H4,[],'XData',T4,'YData',R4,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P4  = houghpeaks(H4,20);
+x4 = T4(P4(:,2)); 
+y4 = R4(P4(:,1));
+plot(x4,y4,'s','color','white');
+lines=houghlines(D,T4,R4,P4);
+subplot(2,3,4);
+imshow(I), hold on;
+title('LOG边缘检测后直线检测');
+for k = 1:length(lines)
+xy4 = [lines(k).point1; lines(k).point2];
+ plot(xy4(:,1),xy4(:,2),'LineWidth',2,'Color','green');
+plot(xy4(1,1),xy4(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy4(2,1),xy4(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H5,T5,R5] = hough(E);
+%subplot(2,3,5);
+%imshow(H5,[],'XData',T5,'YData',R5,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P5  = houghpeaks(H5,20);
+x5 = T5(P5(:,2)); 
+y5 = R5(P5(:,1));
+plot(x5,y5,'s','color','white');
+lines=houghlines(E,T5,R5,P5);
+subplot(2,3,5);
+imshow(I), hold on;
+title('Canny边缘检测后直线检测');
+for k = 1:length(lines)
+xy5 = [lines(k).point1; lines(k).point2];
+ plot(xy5(:,1),xy5(:,2),'LineWidth',2,'Color','green');
+plot(xy5(1,1),xy5(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy5(2,1),xy5(2,2),'x','LineWidth',2,'Color','red');
+end
+
+参数比较1
+[H1,T1,R1] = hough(A,'RhoResolution',0.2);
+%subplot(1,2,1);
+%imshow(H1,[],'XData',T1,'YData',R1,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P1  = houghpeaks(H1,20);
+x1 = T1(P1(:,2)); 
+y1 = R1(P1(:,1));
+plot(x1,y1,'s','color','white');
+lines=houghlines(A,T1,R1,P1);
+subplot(2,2,1);
+imshow(I), hold on;
+title('RhoResolution=0.2');
+for k = 1:length(lines)
+xy1 = [lines(k).point1; lines(k).point2];
+ plot(xy1(:,1),xy1(:,2),'LineWidth',2,'Color','green');
+plot(xy1(1,1),xy1(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy1(2,1),xy1(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H2,T2,R2] = hough(A,'RhoResolution',1);
+%subplot(1,2,1);
+%imshow(H2,[],'XData',T2,'YData',R2,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P2  = houghpeaks(H2,120);
+x2 = T2(P2(:,2)); 
+y2 = R2(P2(:,1));
+plot(x2,y2,'s','color','white');
+lines=houghlines(A,T2,R2,P2);
+subplot(2,2,2);
+imshow(I), hold on;
+title('RhoResolution=1');
+for k = 1:length(lines)
+xy2 = [lines(k).point1; lines(k).point2];
+ plot(xy2(:,1),xy2(:,2),'LineWidth',2,'Color','green');
+plot(xy2(1,1),xy2(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy2(2,1),xy2(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H3,T3,R3] = hough(A,'RhoResolution',2);
+%subplot(1,2,1);
+%imshow(H3,[],'XData',T3,'YData',R3,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P3  = houghpeaks(H3,20);
+x3 = T3(P3(:,2)); 
+y3 = R3(P3(:,1));
+plot(x3,y3,'s','color','white');
+lines=houghlines(A,T3,R3,P3);
+subplot(2,2,3);
+imshow(I), hold on;
+title('RhoResolution=2');
+for k = 1:length(lines)
+xy3 = [lines(k).point1; lines(k).point2];
+ plot(xy3(:,1),xy3(:,2),'LineWidth',2,'Color','green');
+plot(xy3(1,1),xy3(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy3(2,1),xy3(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H4,T4,R4] = hough(A,'RhoResolution',10);
+%subplot(1,2,1);
+%imshow(H4,[],'XData',T4,'YData',R4,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P4  = houghpeaks(H4,20);
+x4 = T4(P4(:,2)); 
+y4 = R4(P4(:,1));
+plot(x4,y4,'s','color','white');
+lines=houghlines(A,T4,R4,P4);
+subplot(2,2,4);
+imshow(I), hold on;
+title('RhoResolution=10');
+for k = 1:length(lines)
+xy4 = [lines(k).point1; lines(k).point2];
+ plot(xy4(:,1),xy4(:,2),'LineWidth',2,'Color','green');
+plot(xy4(1,1),xy4(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy4(2,1),xy4(2,2),'x','LineWidth',2,'Color','red');
+end
+
+参数比较2
+[H1,T1,R1] = hough(A,'Theta',-90:1:89);
+%subplot(1,2,1);
+%imshow(H1,[],'XData',T1,'YData',R1,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P1  = houghpeaks(H1,20);
+x1 = T1(P1(:,2)); 
+y1 = R1(P1(:,1));
+plot(x1,y1,'s','color','white');
+lines=houghlines(A,T1,R1,P1);
+subplot(2,2,1);
+imshow(I), hold on;
+title('Theta=-90~89');
+for k = 1:length(lines)
+xy1 = [lines(k).point1; lines(k).point2];
+ plot(xy1(:,1),xy1(:,2),'LineWidth',2,'Color','green');
+plot(xy1(1,1),xy1(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy1(2,1),xy1(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H2,T2,R2] = hough(A,'Theta',-90:1:0);
+%subplot(1,2,1);
+%imshow(H2,[],'XData',T2,'YData',R2,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P2  = houghpeaks(H2,120);
+x2 = T2(P2(:,2)); 
+y2 = R2(P2(:,1));
+plot(x2,y2,'s','color','white');
+lines=houghlines(A,T2,R2,P2);
+subplot(2,2,2);
+imshow(I), hold on;
+title('Theta=-90~0');
+for k = 1:length(lines)
+xy2 = [lines(k).point1; lines(k).point2];
+ plot(xy2(:,1),xy2(:,2),'LineWidth',2,'Color','green');
+plot(xy2(1,1),xy2(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy2(2,1),xy2(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H3,T3,R3] = hough(A,'Theta',0:1:89);
+%subplot(1,2,1);
+%imshow(H3,[],'XData',T3,'YData',R3,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P3  = houghpeaks(H3,20);
+x3 = T3(P3(:,2)); 
+y3 = R3(P3(:,1));
+plot(x3,y3,'s','color','white');
+lines=houghlines(A,T3,R3,P3);
+subplot(2,2,3);
+imshow(I), hold on;
+title('Theta=0~89');
+for k = 1:length(lines)
+xy3 = [lines(k).point1; lines(k).point2];
+ plot(xy3(:,1),xy3(:,2),'LineWidth',2,'Color','green');
+plot(xy3(1,1),xy3(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy3(2,1),xy3(2,2),'x','LineWidth',2,'Color','red');
+end
+
+[H4,T4,R4] = hough(A,'Theta',-20:1:-20);
+%subplot(1,2,1);
+%imshow(H4,[],'XData',T4,'YData',R4,'InitialMagnification','fit');
+xlabel('\theta'), ylabel('\rho');
+axis on,axis square,hold on;
+P4  = houghpeaks(H4,20);
+x4 = T4(P4(:,2)); 
+y4 = R4(P4(:,1));
+plot(x4,y4,'s','color','white');
+lines=houghlines(A,T4,R4,P4);
+subplot(2,2,4);
+imshow(I), hold on;
+title('Theta=-90~89');
+for k = 1:length(lines)
+xy4 = [lines(k).point1; lines(k).point2];
+ plot(xy4(:,1),xy4(:,2),'LineWidth',2,'Color','green');
+plot(xy4(1,1),xy4(1,2),'x','LineWidth',2,'Color','yellow');
+plot(xy4(2,1),xy4(2,2),'x','LineWidth',2,'Color','red');
+end
